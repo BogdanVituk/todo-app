@@ -1,0 +1,13 @@
+import { IsString, IsNotEmpty, MinLength, MaxLength } from 'class-validator';
+
+export class CreateTaskDto {
+    @IsString({ message: 'Назва має бути рядком' })
+    @IsNotEmpty({ message: 'Назва не може бути порожньою' })
+    @MinLength(3, { message: 'Назва занадто коротка (мін. 3 символи)' })
+    title: string;
+
+    @IsString({ message: 'Опис має бути рядком' })
+    @IsNotEmpty({ message: 'Опис не може бути порожнім' })
+    @MaxLength(500, { message: 'Опис занадто довгий (макс. 500 символів)' })
+    description: string;
+}
