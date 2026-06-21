@@ -1,0 +1,67 @@
+
+@media (max-width: 640px) {
+  html, body {
+    font-size: 16px;
+  }
+  
+  input, select, textarea, button {
+    font-size: 16px; 
+  }
+
+  main {
+    min-height: 100vh;
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+button, input[type="checkbox"], a {
+  min-height: 44px; 
+  min-width: 44px;  
+}
+
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+
+button {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
+@media (max-width: 640px) {
+  main {
+    padding: 8px 0;
+  }
+}
+
+
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  p {
+    line-height: 1.5;
+  }
+}

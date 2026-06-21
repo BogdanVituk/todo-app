@@ -21,9 +21,9 @@ const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
   };
 
   return (
-    <div className="flex justify-between my-3 sm:flex-row sm:items-center">
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-5 my-4 sm:my-5 lg:my-6 items-stretch sm:items-center">
       <input
-        className="w-full max-w-xs block rounded border border-gray-300 p-2"
+        className="flex-1 rounded-lg border border-gray-300 p-3 sm:p-4 lg:p-4 text-sm sm:text-base lg:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         value={filter.query}
         onChange={(event) => handleQueryChange(event.target.value)}
         placeholder="Search todos..."
@@ -32,7 +32,7 @@ const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
       <select
         value={filter.status}
         onChange={(event) => handleStatusChange(event.target.value as FilterStatus)}
-        className="w-full max-w-48 rounded border border-gray-300 p-2"
+        className="flex-1 sm:flex-none rounded-lg border border-gray-300 p-3 sm:p-4 lg:p-4 text-sm sm:text-base lg:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         aria-label="Filter todos by status"
       >
         <option value="all">All</option>

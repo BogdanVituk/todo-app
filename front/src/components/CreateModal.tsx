@@ -1,13 +1,11 @@
-
-import type { TodoRequestBody } from "../types/types";
 import CreateForm from "./CreateForm";
 
 interface Props {
-  addTodo: (data: TodoRequestBody) => Promise<void>;
   onClose: () => void;
 }
 
-const CreateModal = ({ addTodo, onClose }: Props) => {
+const CreateModal = ({ onClose }: Props) => {
+  
   return (
     <div
       role="dialog"
@@ -17,17 +15,19 @@ const CreateModal = ({ addTodo, onClose }: Props) => {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg rounded bg-white p-6 shadow-lg"
+        className="w-full max-w-lg rounded bg-white p-4 sm:p-6 shadow-lg max-h-[90vh] overflow-y-auto"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-center justify-between">
-          <h2 id="create-todo-title" className="text-xl font-semibold">
+        <div className="flex items-center justify-between mb-4">
+          <h2 id="create-todo-title" className="text-lg sm:text-xl font-semibold">
             Create New Task
           </h2>
-          <button type="button" onClick={onClose} className="text-xl leading-none">×</button>
+          <button type="button" onClick={onClose} className="text-2xl leading-none hover:text-gray-600 transition">
+            ×
+          </button>
         </div>
-        <div className="mt-4">
-          <CreateForm addTodo={addTodo} onClose={onClose} />
+        <div>
+          <CreateForm onClose={onClose} />
         </div>
       </div>
     </div>
