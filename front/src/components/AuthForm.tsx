@@ -19,7 +19,7 @@ interface AuthFormProps {
 export default function AuthForm({ initialMode }: AuthFormProps) {
   const { loginUser } = useAuth();
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(initialMode === 'login');
+  const [isLogin] = useState(initialMode === 'login');
   const [loading, setLoading] = useState(false);
 
   const {
