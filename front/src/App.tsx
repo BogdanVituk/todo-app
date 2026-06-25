@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import TodosList from "./components/TodosList"
 import Container from "./components/Container"
 import CreateModal from "./components/CreateModal"
@@ -9,37 +9,20 @@ import { useTodoContext } from "./context/TodoContext"
 import Header from "./components/Header"
 import { ActionButtonsRow } from "./components/ActionButtonsRow"
 import { ProgressBar } from "./components/ProgressBar"
-import type { FilterState } from "./types/types"
+import type { FilterState, Todo } from "./types/types"
+import { useFilteredTodos } from "./hooks/useFilteredTodo"
+import EditModal from "./components/EditForm"
 
 
 function App() {
-  const [filter, setFilter] = useState<FilterState>({ status: 'all', query: '',   priority: 'all' , })
+  const [filter, setFilter] = useState<FilterState>({ status: 'all', query: '',   priority: 'all', sortBy: 'default' })
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null)
+  
   const { todos, error } = useTodoContext()
 
-  const filteredTodos = useMemo(() => {
-    return todos.filter((todo) => {
-      const matchesSearch =
-        todo.title.toLowerCase().includes(filter.query.toLowerCase()) ||
-        todo.description.toLowerCase().includes(filter.query.toLowerCase())
-
-      const matchesStatus =
-        filter.status === 'all'
-          ? true
-          : filter.status === 'active'
-            ? !todo.completed
-            : todo.completed
-
-      const matchesPriority =
-        filter.priority === 'all' ? true : todo.priority === filter.priority
-
-      return matchesSearch && matchesStatus && matchesPriority
-
-    })
-
-  }, [filter.query, filter.status, filter.priority, todos])
-
+  const filteredTodos = useFilteredTodos(todos, filter)
   
 
   return (
@@ -54,13 +37,13 @@ function App() {
         />
         <ProgressBar todos={todos} />
         {error && <div className="text-red-500 text-center text-sm sm:text-base lg:text-lg bg-red-50 p-4 rounded-lg border border-red-200">{error}</div>} 
-        <TodosList todos={filteredTodos} isReadOnly={false} />
+        <TodosList todos={filteredTodos} isReadOnly={false} onEdit={setEditingTodo} />
         <Pagination/>
       </Container>
       
        { isModalOpen && ( <CreateModal onClose={() => setIsModalOpen(false)} /> )}
        { isShareModalOpen && (<ShareModal  todos={todos} onClose={() => setIsShareModalOpen(false)} />)}
-    
+       {editingTodo && <EditModal todo={editingTodo} onClose={() => setEditingTodo(null)} />}
     </main>
 
   )

@@ -19,6 +19,7 @@ interface TodoContextType {
   onDeleteTodo: (id: number) => Promise<void>;
   onToggleTodo: (todo: Todo) => Promise<void>;
   refetchTodos: () => void;
+  onEditTodo: (id: number, data: Partial<TodoRequestBody>) => Promise<void>;
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
@@ -62,6 +63,17 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const onEditTodo = async (id: number, data: Partial<TodoRequestBody>) => {
+  const loadingToast = toast.loading("Saving...");
+  try {
+    const updated = await TodoService.updateTodo(id, data);
+    setTodos((prev) => prev.map((t) => (t.id === id ? updated : t)));
+    toast.success("Saved!", { id: loadingToast });
+  } catch (err: any) {
+    toast.error(`Error: ${err.message}`, { id: loadingToast });
+  }
+};
+
   const onDeleteTodo = async (id: number) => {
     const loadingToast = toast.loading("Deleting...");
     try {
@@ -97,6 +109,7 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <TodoContext.Provider value={{
+      onEditTodo,
       todos,
       isLoading,
       error,

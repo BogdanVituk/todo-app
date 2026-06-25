@@ -13,6 +13,18 @@ export const TodoService = {
         }
     },
 
+     async updateTodo(id: number, data: Partial<TodoRequestBody>): Promise<Todo> {
+        try {
+            const res = await authInstance.patch<Todo>(`/tasks/${id}`, {
+            ...data,
+            deadline: data.deadline ? new Date(data.deadline).toISOString() : null,
+            });
+            return res.data;
+        } catch (error: unknown) {
+            throw new Error(extractErrorMessage(error));
+        }
+    },
+
     async getTodos(page: number, limit: number): Promise<PaginatedResponse<Todo>> {
         try {
             const res = await authInstance.get<PaginatedResponse<Todo>>("/tasks", {

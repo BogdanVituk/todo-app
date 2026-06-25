@@ -14,8 +14,11 @@ export interface Todo {
 
 export type TodoRequestBody = Omit<Todo, "id" | "completed">;
 
+export type SortBy = 'default' | 'priority' | 'deadline' | 'createdAt';
+
 export interface FilterState {
   status: FilterStatus;
   query: string;
   priority: FilterPriority;
+  sortBy: SortBy;
 }

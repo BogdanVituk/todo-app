@@ -1,63 +1,57 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { FilterPriority, FilterState, FilterStatus } from "../types/types";
-
+import type { FilterPriority, FilterState, FilterStatus, SortBy } from "../types/types";
 
 interface TodoFilterProps {
   filter: FilterState;
   setFilter: Dispatch<SetStateAction<FilterState>>;
 }
 
-
-const priorityOptions: { value: FilterPriority; label: string }[] = [
-  { value: 'all',    label: 'Будь-який' },
-  { value: 'HIGH',   label: '🔴 Важливо' },
-  { value: 'MEDIUM', label: '🟡 Середній' },
-  { value: 'LOW',    label: '🔵 Низький' },
-]
-
 const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
-  const handleQueryChange = (query: string) => {
-    setFilter((current) => ({ ...current, query }));
-  };
-
-  const handleStatusChange = (status: FilterStatus) => {
-    setFilter((current) => ({ ...current, status }));
-  };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-5 my-4 sm:my-5 lg:my-6 items-stretch sm:items-center">
+   <div className="flex flex-col gap-3 my-4 sm:my-5 lg:my-6">
+      {/* пошук */}
       <input
-        className="flex-1 rounded-lg border border-gray-300 p-3 sm:p-4 lg:p-4 text-sm sm:text-base lg:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        className="w-full rounded-lg border border-gray-300 p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         value={filter.query}
-        onChange={(event) => handleQueryChange(event.target.value)}
+        onChange={(e) => setFilter((f) => ({ ...f, query: e.target.value }))}
         placeholder="Search todos..."
         aria-label="Search todos"
       />
-      <select
-        value={filter.status}
-        onChange={(event) => handleStatusChange(event.target.value as FilterStatus)}
-        className="flex-1 sm:flex-none rounded-lg border border-gray-300 p-3 sm:p-4 lg:p-4 text-sm sm:text-base lg:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-        aria-label="Filter todos by status"
-      >
-        <option value="all">All</option>
-        <option value="active">Active</option>
-        <option value="completed">Completed</option>
-      </select>
 
+      {/* статус + пріоритет + сортування в один рядок */}
       <div className="flex gap-2 flex-wrap">
-        {priorityOptions.map(({ value, label }) => (
-          <button
-            key={value}
-            onClick={() => setFilter((f) => ({ ...f, priority: value }))}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition border
-              ${filter.priority === value
-                ? 'bg-gray-800 text-white border-gray-800'
-                : 'bg-white text-gray-600 border-gray-300 hover:border-gray-500'
-              }`}
-          >
-            {label}
-          </button>
-        ))}
+        <select
+          value={filter.status}
+          onChange={(e) => setFilter((f) => ({ ...f, status: e.target.value as FilterStatus }))}
+          className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <select
+          value={filter.priority}
+          onChange={(e) => setFilter((f) => ({ ...f, priority: e.target.value as FilterPriority }))}
+          className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
+          <option value="all">Any Priority</option>
+          <option value="HIGH">🔴 Important</option>
+          <option value="MEDIUM">🟡 Medium</option>
+          <option value="LOW">🔵 Low</option>
+        </select>
+
+        <select
+          value={filter.sortBy}
+          onChange={(e) => setFilter((f) => ({ ...f, sortBy: e.target.value as SortBy }))}
+          className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
+          <option value="default">Sort: Default</option>
+          <option value="priority">↑ Priority</option>
+          <option value="deadline">↑ Deadline</option>
+          <option value="createdAt">↑ Newest</option>
+        </select>
       </div>
     </div>
   );
