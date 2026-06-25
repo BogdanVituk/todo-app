@@ -19,7 +19,7 @@ interface Props {
   submitLabel?: string;
 }
 
-const TodoForm = ({ initialData, onSubmit, onClose, submitLabel = 'Зберегти' }: Props) => {
+const TodoForm = ({ initialData, onSubmit, onClose, submitLabel = 'Save' }: Props) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<TodoFormData>({
     resolver: zodResolver(todoSchema),
     defaultValues: {
@@ -66,14 +66,14 @@ const TodoForm = ({ initialData, onSubmit, onClose, submitLabel = 'Зберег�
           {...register('priority')}
           className="border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white"
         >
-          <option value="LOW">🔵 Низький</option>
-          <option value="MEDIUM">🟡 Середній</option>
-          <option value="HIGH">🔴 Важливо</option>
+          <option value="LOW">🔵 Low</option>
+          <option value="MEDIUM">🟡 Medium</option>
+          <option value="HIGH">🔴 Important</option>
         </select>
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-sm font-semibold">Дедлайн</span>
+        <span className="text-sm font-semibold">Deadline</span>
         <input
           type="date"
           {...register('deadline')}
@@ -88,14 +88,14 @@ const TodoForm = ({ initialData, onSubmit, onClose, submitLabel = 'Зберег�
           onClick={onClose}
           className="flex-1 border border-gray-300 text-gray-700 p-3 rounded-lg hover:bg-gray-50 transition text-sm font-medium"
         >
-          Скасувати
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
           className="flex-1 bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 disabled:opacity-50 transition text-sm font-semibold"
         >
-          {isSubmitting ? 'Збереження...' : submitLabel}
+          {isSubmitting ? 'Saving...' : submitLabel}
         </button>
       </div>
     </form>
