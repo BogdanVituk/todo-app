@@ -17,10 +17,10 @@ const CreateModal = ({ onClose }: Props) => {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-lg font-semibold">Нова задача</h2>
+          <h2 className="text-lg font-semibold">New todo</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition">✕</button>
         </div>
-        <TodoForm onSubmit={handleSubmit} onClose={onClose} submitLabel="Створити" />
+        <TodoForm onSubmit={handleSubmit} onClose={onClose} submitLabel="Create" />
       </div>
     </div>
   );
