@@ -27,10 +27,19 @@ model Task {
   userId Int?
   user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  priority    Priority  @default(MEDIUM)
+  deadline    DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
 }
 
 model SharedList {

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `Task` ADD COLUMN `deadline` DATETIME(3) NULL,
+    ADD COLUMN `priority` ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL DEFAULT 'MEDIUM';
