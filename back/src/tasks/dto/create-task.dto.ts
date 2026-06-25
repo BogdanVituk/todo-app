@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, MaxLength, IsOptional, IsEnum, IsDateString } from 'class-validator';
+import { Priority } from './update-task-status.dto';
 
 export class CreateTaskDto {
     @IsString({ message: 'Назва має бути рядком' })
@@ -10,4 +11,15 @@ export class CreateTaskDto {
     @IsNotEmpty({ message: 'Опис не може бути порожнім' })
     @MaxLength(500, { message: 'Опис занадто довгий (макс. 500 символів)' })
     description: string;
+
+    @IsOptional()
+    @IsEnum(Priority)
+    priority?: Priority;
+
+    @IsOptional()
+    @IsDateString()
+    deadline?: string;
+    
 }
+
+
