@@ -1,15 +1,19 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { FilterStatus } from "../types/types";
+import type { FilterPriority, FilterState, FilterStatus } from "../types/types";
 
-interface FilterState {
-  status: FilterStatus;
-  query: string;
-}
 
 interface TodoFilterProps {
   filter: FilterState;
   setFilter: Dispatch<SetStateAction<FilterState>>;
 }
+
+
+const priorityOptions: { value: FilterPriority; label: string }[] = [
+  { value: 'all',    label: 'Будь-який' },
+  { value: 'HIGH',   label: '🔴 Важливо' },
+  { value: 'MEDIUM', label: '🟡 Середній' },
+  { value: 'LOW',    label: '🔵 Низький' },
+]
 
 const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
   const handleQueryChange = (query: string) => {
@@ -39,6 +43,22 @@ const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
         <option value="active">Active</option>
         <option value="completed">Completed</option>
       </select>
+
+      <div className="flex gap-2 flex-wrap">
+        {priorityOptions.map(({ value, label }) => (
+          <button
+            key={value}
+            onClick={() => setFilter((f) => ({ ...f, priority: value }))}
+            className={`px-3 py-1.5 rounded-full text-sm font-medium transition border
+              ${filter.priority === value
+                ? 'bg-gray-800 text-white border-gray-800'
+                : 'bg-white text-gray-600 border-gray-300 hover:border-gray-500'
+              }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
