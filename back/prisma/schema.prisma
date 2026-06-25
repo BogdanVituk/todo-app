@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 model User {
@@ -46,7 +46,7 @@ model SharedList {
   id             Int      @id @default(autoincrement())
   token          String   @unique
   recipientEmail String
-  tasksData      String   @db.LongText
+  tasksData      String   @db.Text
   createdAt      DateTime @default(now())
   expiresAt      DateTime
 

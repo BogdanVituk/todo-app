@@ -5,6 +5,7 @@ import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { MailService } from '../mail/mail.service';
 import { v4 as uuidv4 } from 'uuid';
 import { SHARED_LIST_EXPIRY_DAYS, DEFAULT_PAGE, DEFAULT_LIMIT } from '../config/constants';
+import { UpdateTaskDto } from './dto/update-tast.dto';
 
 @Injectable()
 export class TasksService {
@@ -41,8 +42,29 @@ export class TasksService {
   }
 
   async create(data: CreateTaskDto, userId: number) {
-    return this.prisma.task.create({ data: { ...data, userId } });
+    return this.prisma.task.create({   data: {
+      title: data.title,
+      description: data.description,
+      priority: data.priority,
+      deadline: data.deadline ? new Date(data.deadline) : null,
+      userId,
+    },
+  });
   }
+
+  async update(id: number, data: UpdateTaskDto) {
+  await this.findTaskOrThrow(id);
+
+  return this.prisma.task.update({
+    where: { id },
+    data: {
+      ...(data.title && { title: data.title }),
+      ...(data.description && { description: data.description }),
+      ...(data.priority && { priority: data.priority }),
+      deadline: data.deadline ? new Date(data.deadline) : null,
+    },
+  });
+}
 
   private async findTaskOrThrow(id: number) {
     const task = await this.prisma.task.findUnique({ where: { id } });

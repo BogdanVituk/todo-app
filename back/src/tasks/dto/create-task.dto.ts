@@ -1,5 +1,6 @@
+import { Priority } from '@prisma/client';
 import { IsString, IsNotEmpty, MinLength, MaxLength, IsOptional, IsEnum, IsDateString } from 'class-validator';
-import { Priority } from './update-task-status.dto';
+
 
 export class CreateTaskDto {
     @IsString({ message: 'Назва має бути рядком' })

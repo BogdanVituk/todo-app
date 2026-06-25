@@ -2,8 +2,9 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, ParseIntPipe, Req, U
 import { Request } from 'express';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+import  { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { GetUser, JwtAuthGuard, UserPayload } from 'src/guards/jwt-auth.guard';
+import { UpdateTaskDto } from './dto/update-tast.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -42,6 +43,17 @@ export class TasksController {
   ) {
     return this.tasksService.updateStatus(id, data);
   }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateTaskDto,
+  ) {
+    return this.tasksService.update(id, data);
+  }
+
+
 
   @Post('share')
   @UseGuards(JwtAuthGuard)
