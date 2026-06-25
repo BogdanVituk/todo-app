@@ -61,7 +61,7 @@ const TodoForm = ({ initialData, onSubmit, onClose, submitLabel = 'Save' }: Prop
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-sm font-semibold">Пріоритет</span>
+        <span className="text-sm font-semibold">Priority</span>
         <select
           {...register('priority')}
           className="border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white"
