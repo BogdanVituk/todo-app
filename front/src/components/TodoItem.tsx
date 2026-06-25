@@ -1,5 +1,7 @@
 import { Trash2 } from "lucide-react";
 import type { Todo } from "../types/types";
+import { PriorityBadge } from "./PriorityBadge";
+import { DeadlineBadge } from "./DeadlineBadge";
 
 interface TodoItemProps {
   todo: Todo;
@@ -37,6 +39,10 @@ const TodoItem = ({ todo, onToggle, onDelete, isReadOnly = false }: TodoItemProp
         >
           <Trash2 size={20} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
         </button>
+      </div>
+       <div className="flex items-center gap-2 flex-wrap ml-8">
+        <PriorityBadge priority={todo.priority} />
+        <DeadlineBadge deadline={todo.deadline} />
       </div>
     </li>
   );
