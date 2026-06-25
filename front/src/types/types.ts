@@ -8,11 +8,12 @@ export interface Todo {
     description: string;
     priority?: Priority;
     deadline?: string;
+    createdAt: string;
     completed: boolean;
 }
 
 
-export type TodoRequestBody = Omit<Todo, "id" | "completed">;
+export type TodoRequestBody = Omit<Todo, "id" | "completed" | 'createdAt'>;
 
 export type SortBy = 'default' | 'priority' | 'deadline' | 'createdAt';
 
