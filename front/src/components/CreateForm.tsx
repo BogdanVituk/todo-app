@@ -7,6 +7,8 @@ import { useTodoContext } from "../context/TodoContext";
 const todoSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters long"),
   description: z.string().min(5, "Description must be at least 5 characters long"),
+  priority: z.enum(['LOW', 'MEDIUM', 'HIGH']),
+  deadline: z.string().optional(),
 });
 
 type TodoFormData = z.infer<typeof todoSchema>;
@@ -27,6 +29,9 @@ const CreateForm = ({ onClose }: CreateFormProps) => {
   } = useForm<TodoFormData>({
     resolver: zodResolver(todoSchema),
     mode: "onChange",
+    defaultValues: {
+      priority: "MEDIUM"
+    }
   });
 
   const onSubmit: SubmitHandler<TodoFormData> = async (data) => {
@@ -65,6 +70,21 @@ const CreateForm = ({ onClose }: CreateFormProps) => {
           {...register("description")}
         />
         {errors.description && <span className="text-red-500 text-xs sm:text-sm lg:text-sm">{errors.description.message}</span>}
+      </label>
+      <select {...register('priority')} className="border rounded px-2 py-1 text-sm">
+        <option value="LOW">Низький</option>
+        <option value="MEDIUM">Середній</option>
+        <option value="HIGH">🔥 Важливо</option>
+      </select>
+
+     <label className="flex flex-col gap-1.5">
+      <span className="text-sm sm:text-base font-semibold">Дедлайн</span>
+      <input
+        type="date"
+        {...register('deadline')}
+        min={new Date().toISOString().split('T')[0]}
+        className="border border-gray-300 rounded-lg p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+      />
       </label>
 
       {submitError && <div className="text-red-500 text-sm sm:text-base bg-red-50 p-3 rounded-lg border border-red-200">{submitError}</div>}
